@@ -1,6 +1,8 @@
 # import decimal
 # import json
 
+import os
+
 import boto3
 import simplejson as json
 
@@ -42,7 +44,10 @@ def lambda_handler(event, context):
     sqs = boto3.client('sqs')
 
     dynamoDb = boto3.resource('dynamodb')
-    table = dynamoDb.Table("tf_sam_todo_table")
+
+    table_name = os.environ["DYNAMO_TABLE_NAME"]
+    # table = dynamoDb.Table("tf_sam_todo_table")
+    table = dynamoDb.Table(table_name)
     print(table)
 
     if event["httpMethod"] == "POST":
@@ -50,7 +55,8 @@ def lambda_handler(event, context):
         print(data)
 
         if data:
-            queue_url = 'https://sqs.ap-southeast-1.amazonaws.com/983670951732/rf_sam_todo_queue'
+            # queue_url = 'https://sqs.ap-southeast-1.amazonaws.com/983670951732/rf_sam_todo_queue'
+            queue_url = os.environ["SQS_URL"]
 
             # Send message to SQS queue
             response = sqs.send_message(

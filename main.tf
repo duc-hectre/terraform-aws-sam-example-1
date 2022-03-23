@@ -58,10 +58,12 @@ module "lambda_api_todo" {
   region            = var.region
   resource_tag_name = var.resource_tag_name
 
-  lambda_name      = "tf-sam-lambda-todo-handler"
-  api_name         = "tf-sam-api-todo"
-  queue_arn        = aws_sqs_queue._.arn
-  dynamo_table_arn = aws_dynamodb_table._.arn
+  lambda_name       = "tf-sam-lambda-todo-handler"
+  api_name          = "tf-sam-api-todo"
+  queue_arn         = aws_sqs_queue._.arn
+  dynamo_table_arn  = aws_dynamodb_table._.arn
+  queue_url         = aws_sqs_queue._.url
+  dynamo_table_name = aws_dynamodb_table._.name
 }
 
 module "lambda_persist_todo" {
@@ -71,7 +73,8 @@ module "lambda_persist_todo" {
   region            = var.region
   resource_tag_name = var.resource_tag_name
 
-  lambda_name      = "tf-sam-lambda-todo-persist"
-  dynamo_table_arn = aws_dynamodb_table._.arn
-  source_arn       = aws_sqs_queue._.arn
+  lambda_name       = "tf-sam-lambda-todo-persist"
+  dynamo_table_arn  = aws_dynamodb_table._.arn
+  source_arn        = aws_sqs_queue._.arn
+  dynamo_table_name = aws_dynamodb_table._.name
 }

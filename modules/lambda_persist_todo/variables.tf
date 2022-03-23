@@ -27,9 +27,13 @@ variable "lambda_name" {
 # }
 
 variable "dynamo_table_arn" {
-  description = "dynamodb-table"
+  description = "dynamodb-table to grant permission to lambda"
 }
 
 variable "source_arn" {
   description = "event source arn to trigger lambda"
+}
+
+variable "dynamo_table_name" {
+  description = "dynamo table name that lambda function uses to retreive data"
 }

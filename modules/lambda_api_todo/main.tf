@@ -36,6 +36,10 @@ module "aws_lambda" {
   handler_name  = "main.lambda_handler"
   role_arn      = module.aws_iam.role_arn
   source_arn    = "${module.aws_api_gateway.api_execution_arn}/*/*"
+  lambda_variables = {
+    SQS_URL : var.queue_url
+    DYNAMO_TABLE_NAME : var.dynamo_table_name
+  }
 }
 
 module "aws_api_gateway" {

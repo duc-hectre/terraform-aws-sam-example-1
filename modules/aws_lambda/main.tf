@@ -20,6 +20,10 @@ resource "aws_lambda_function" "_" {
   handler          = var.handler_name
   runtime          = "python3.8"
   role             = var.role_arn
+
+  environment {
+    variables = var.lambda_variables
+  }
 }
 
 resource "aws_lambda_permission" "_" {

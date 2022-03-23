@@ -42,3 +42,10 @@ variable "role_arn" {
 variable "source_arn" {
   description = "api gateway source which has granted permission to invoke lambda"
 }
+variable "lambda_variables" {
+  type        = map(string)
+  description = "object to define all the lambda environment variables"
+  default = {
+
+  }
+}

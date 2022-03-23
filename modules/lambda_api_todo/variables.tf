@@ -27,10 +27,16 @@ variable "api_name" {
 }
 
 variable "queue_arn" {
-  description = "queue arn to send message to"
+  description = "queue arn to grant permission to lambda"
+}
+variable "queue_url" {
+  description = "queue url that labmda function use to send the message to"
 }
 
 variable "dynamo_table_arn" {
-  description = "dynamo table arn"
+  description = "dynamo table arn to grant permission to lambda"
+}
+variable "dynamo_table_name" {
+  description = "dynamo table name that lambda function uses to retreive data"
 }
 

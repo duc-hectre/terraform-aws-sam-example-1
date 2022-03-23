@@ -1,4 +1,5 @@
 import json
+import os
 
 import boto3
 
@@ -38,7 +39,9 @@ def lambda_handler(event, context):
     print(event)
 
     dynamoDb = boto3.resource('dynamodb')
-    table = dynamoDb.Table("tf_sam_todo_table")
+    table_name = os.environ["DYNAMO_TABLE_NAME"]
+    # table = dynamoDb.Table("tf_sam_todo_table")
+    table = dynamoDb.Table(table_name)
 
     body = event['Records'][0]['body']
 
