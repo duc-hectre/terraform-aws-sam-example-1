@@ -1,0 +1,43 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Todo lambda function
+Globals:
+  Function:
+    Timeout: 3
+
+Resources:
+  TodoFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      FunctionName: test-test_tag-tf-sam-lambda-todo-handler
+      CodeUri: ../../lambda/src/todo_handler/
+      Handler: main.lambda_handler
+      Runtime: python3.8
+      Architectures:
+        - x86_64
+      Policies: 
+        - DynamoDBCrudPolicy:
+            TableName: !Ref HelloTable
+      Events:
+        GetHello:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /todo
+            Method: any        
+  HelloTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      # PrimaryKey: PrimaryKeyObject
+      # ProvisionedThroughput: ProvisionedThroughput
+      # SSESpecification: SSESpecification
+      TableName: tf_sam_todo_table
+      
+
+Outputs:  
+  TodoFunction:
+    Description: "Hello World Lambda Function ARN"
+    Value: !GetAtt TodoFunction.Arn
+  TodoFunctionIamRole:
+    Description: "Implicit IAM Role created for Hello World function"
+    Value: !GetAtt TodoFunctionIamRole.Arn
