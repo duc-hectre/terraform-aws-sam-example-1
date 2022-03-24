@@ -7,7 +7,7 @@
       "Resource": ["*"]
     },
     {
-      "Action": ["logs:*", "s3:*", "codebuild:*", "secretsmanager:*", "iam:*", "sqs:*", "dynamodb:*", "apigateway:*"],
+      "Action": ["logs:*", "s3:*", "codebuild:*", "secretsmanager:*", "iam:*", "sqs:*", "dynamodb:*", "api:*"],
       "Resource": ["*"],
       "Effect": "Allow"
     }
