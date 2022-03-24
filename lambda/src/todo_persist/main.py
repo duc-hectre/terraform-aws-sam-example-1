@@ -51,4 +51,4 @@ def lambda_handler(event, context):
         print(type(existItems))
         count = len(existItems['Items']) + 1
         table.put_item(
-            Item={'id': str(count), 'todo': data["todo"], 'status': "0"})
+            Item={'id': str(count), 'todo': data["todo"], 'desc': data["desc"], 'status': "0"})
