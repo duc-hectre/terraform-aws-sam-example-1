@@ -4,20 +4,28 @@
 
 variable "environment" {
   description = "AWS resource environment/prefix"
-  default     = "test"
 }
 
 variable "region" {
   description = "AWS region"
-  default     = "ap-southeast-1"
 }
 
 variable "resource_tag_name" {
   description = "Resource tag name for cost tracking"
-  default     = "test_tag"
+}
+
+
+# -----------------------------------------------------------------------------
+# Variables: Lambda
+# -----------------------------------------------------------------------------
+
+variable "cicd_name" {
+  description = "AWS resource name"
 }
 
 variable "codestar_connector_credentials" {
-  description = "Connection to github repository"
-  type        = string
+  description = "codestar_connector_credentials"
+}
+variable "pipeline_artifact_bucket" {
+  description = "pipeline_artifact_bucket name"
 }

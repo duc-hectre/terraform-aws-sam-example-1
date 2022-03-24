@@ -78,3 +78,16 @@ module "lambda_persist_todo" {
   source_arn        = aws_sqs_queue._.arn
   dynamo_table_name = aws_dynamodb_table._.name
 }
+
+
+module "aws_tf_cicd_pipeline" {
+  source = "./modules/aws_tf_cicd_pipeline"
+
+  environment       = var.environment
+  region            = var.region
+  resource_tag_name = var.resource_tag_name
+
+  cicd_name                      = "tf-cicd-todo"
+  codestar_connector_credentials = var.codestar_connector_credentials
+  pipeline_artifact_bucket       = "tf-cicd-todo-artifact-bucket"
+}
