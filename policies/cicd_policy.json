@@ -7,12 +7,7 @@
       "Resource": ["*"]
     },
     {
-      "Action": ["cloudwatch:*"],
-      "Resource": ["*"],
-      "Effect": "Allow"
-    },
-    {
-      "Action": ["logs:*", "s3:*", "codebuild:*", "secretsmanager:*", "iam:*"],
+      "Action": ["logs:*", "s3:*", "codebuild:*", "secretsmanager:*", "iam:*", "sqs:*", "dynamodb:*", "apigateway:*"],
       "Resource": ["*"],
       "Effect": "Allow"
     }
