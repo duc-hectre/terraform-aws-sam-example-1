@@ -149,6 +149,7 @@ resource "aws_codepipeline" "_" {
         BranchName           = "main"
         ConnectionArn        = var.codestar_connector_credentials
         OutputArtifactFormat = "CODE_ZIP"
+        DetectChanges        = true
       }
     }
   }
