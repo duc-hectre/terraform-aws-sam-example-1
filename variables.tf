@@ -4,7 +4,7 @@
 
 variable "environment" {
   description = "AWS resource environment/prefix"
-  default     = "test"
+  default     = "dev"
 }
 
 variable "region" {
@@ -14,7 +14,7 @@ variable "region" {
 
 variable "resource_tag_name" {
   description = "Resource tag name for cost tracking"
-  default     = "test_tag"
+  default     = "todo"
 }
 
 variable "codestar_connector_credentials" {

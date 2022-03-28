@@ -9,6 +9,26 @@ import simplejson as json
 # import requests
 
 
+def dynamodb_get_items():
+    dynamoDb = boto3.resource('dynamodb')
+    table_name = os.environ["DYNAMO_TABLE_NAME"]
+    table = dynamoDb.Table(table_name)
+    return table.scan()
+
+
+def sqs_send_message(message):
+    sqs = boto3.client('sqs')
+    queue_url = os.environ["SQS_URL"]
+
+    # Send message to SQS queue
+    response = sqs.send_message(
+        QueueUrl=queue_url,
+        DelaySeconds=10,
+        MessageBody=message
+    )
+    return response['MessageId']
+
+
 def lambda_handler(event, context):
     """Sample pure Lambda function
 
@@ -41,30 +61,12 @@ def lambda_handler(event, context):
 
     print(event)
 
-    sqs = boto3.client('sqs')
-
-    dynamoDb = boto3.resource('dynamodb')
-
-    table_name = os.environ["DYNAMO_TABLE_NAME"]
-    # table = dynamoDb.Table("tf_sam_todo_table")
-    table = dynamoDb.Table(table_name)
-    print(table)
-
     if event["httpMethod"] == "POST":
         data = event["body"]
         print(data)
 
         if data:
-            # queue_url = 'https://sqs.ap-southeast-1.amazonaws.com/983670951732/rf_sam_todo_queue'
-            queue_url = os.environ["SQS_URL"]
-
-            # Send message to SQS queue
-            response = sqs.send_message(
-                QueueUrl=queue_url,
-                DelaySeconds=10,
-                MessageBody=data
-            )
-            msgId = response['MessageId']
+            msgId = sqs_send_message(data)
             if msgId:
                 return {
                     "statusCode": 201,
@@ -87,7 +89,7 @@ def lambda_handler(event, context):
                 }),
             }
     else:
-        response = table.scan()
+        response = dynamodb_get_items()
         print(response)
         items = response['Items'] if response else {}
         return {

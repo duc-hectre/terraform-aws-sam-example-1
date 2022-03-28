@@ -52,3 +52,8 @@ def lambda_handler(event, context):
         count = len(existItems['Items']) + 1
         table.put_item(
             Item={'id': str(count), 'todo': data["todo"], 'desc': data["desc"], 'status': "0"})
+
+
+if __name__ == '__main__':
+    # Do nothing if executed as a script
+    pass

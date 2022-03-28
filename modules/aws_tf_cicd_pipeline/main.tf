@@ -37,33 +37,33 @@ module "aws_iam_codebuild" {
   role_vars          = {}
 }
 
-# resource "aws_codebuild_project" "sam_build" {
-#   name        = "todo_cicd_build"
-#   description = "Plan state for terraform"
+resource "aws_codebuild_project" "sam_test" {
+  name        = "todo_cicd_test"
+  description = "Plan state for terraform"
 
-#   service_role = module.aws_iam.role_arn
+  service_role = module.aws_iam_codebuild.role_arn
 
-#   artifacts {
-#     type = "CODEPIPELINE"
-#   }
+  artifacts {
+    type = "CODEPIPELINE"
+  }
 
-#   environment {
-#     compute_type                = "BUILD_GENERAL1_SMALL"
-#     image                       = "public.ecr.aws/sam/build-python3.8"
-#     type                        = "LINUX_CONTAINER"
-#     image_pull_credentials_type = "SERVICE_ROLE"
+  environment {
+    compute_type                = "BUILD_GENERAL1_SMALL"
+    image                       = "aws/codebuild/amazonlinux2-x86_64-standard:3.0"
+    type                        = "LINUX_CONTAINER"
+    image_pull_credentials_type = "CODEBUILD"
 
-#     # registry_credential {
-#     #   credential          = var.dockerhub_credentials
-#     #   credential_provider = "SECRETS_MANAGER"
-#     # }
-#   }
+    # registry_credential {
+    #   credential          = var.dockerhub_credentials
+    #   credential_provider = "SECRETS_MANAGER"
+    # }
+  }
 
-#   source {
-#     type      = "CODEPIPELINE"
-#     buildspec = file("${path.module}/buildspec/build_buildspec.yml")
-#   }
-# }
+  source {
+    type      = "CODEPIPELINE"
+    buildspec = file("${path.module}/buildspec/test_buildspec.yml")
+  }
+}
 
 resource "aws_codebuild_project" "tf_plan" {
   name        = "todo_cicd_plan"
@@ -154,21 +154,21 @@ resource "aws_codepipeline" "_" {
     }
   }
 
-  # stage {
-  #   name = "Build"
-  #   action {
-  #     name             = "Build"
-  #     category         = "Build"
-  #     provider         = "CodeBuild"
-  #     version          = "1"
-  #     owner            = "AWS"
-  #     input_artifacts  = ["tf-code"]
-  #     output_artifacts = ["tf-code-sam-build"]
-  #     configuration = {
-  #       ProjectName = aws_codebuild_project.sam_build.name
-  #     }
-  #   }
-  # }
+  stage {
+    name = "Test"
+    action {
+      name            = "Test"
+      category        = "Test"
+      provider        = "CodeBuild"
+      version         = "1"
+      owner           = "AWS"
+      input_artifacts = ["tf-code"]
+      # output_artifacts = ["tf-code-sam-build"]
+      configuration = {
+        ProjectName = aws_codebuild_project.sam_test.name
+      }
+    }
+  }
 
   stage {
     name = "Plan"

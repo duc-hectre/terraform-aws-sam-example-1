@@ -1,0 +1,20 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.7
+    commands:
+      - cd ./lambda/src
+      - pip3 install pytest
+  build:
+    commands:
+      - python -m pytest
+      # - python -m pytest --junitxml=<test report directory>/<report filename>
+
+# reports:
+#   pytest_reports:
+#     files:
+#       - <report filename>
+#     base-directory: <test report directory>
+#     file-format: JUNITXML

@@ -4,7 +4,7 @@
 data "archive_file" "_" {
   type        = "zip"
   source_file = "${path.root}/lambda/src/todo_persist/main.py"
-  output_path = "${path.root}/lambda/package/${var.environment}/todo_persist/${var.lambda_name}.zip"
+  output_path = "${path.root}/package/${var.environment}/todo_persist/${var.lambda_name}.zip"
 }
 
 module "aws_iam" {

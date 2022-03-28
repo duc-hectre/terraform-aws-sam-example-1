@@ -5,7 +5,7 @@ data "archive_file" "_" {
   type = "zip"
   # source_file = "${path.root}/lambda/src/todo_handler/main.py"
   source_dir  = "${path.root}/sam/todo_handler/.aws-sam/build/TodoFunction"
-  output_path = "${path.root}/lambda/package/${var.environment}/todo_handler/${var.lambda_name}.zip"
+  output_path = "${path.root}/package/${var.environment}/todo_handler/${var.lambda_name}.zip"
 }
 
 module "aws_iam" {
