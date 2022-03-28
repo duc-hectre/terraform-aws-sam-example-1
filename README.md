@@ -1,4 +1,4 @@
-### Introduction
+## Introduction
 
 This is the sample project to describe how to initiate & provision a serverless platform on AWS cloud using Terraform & SAM.
 The approach is:
@@ -10,13 +10,13 @@ The approach is:
   - To develop, test & debug the source code of lambda function.
   - Build the lambda package used to deploy by Terraform.
 
-## Sample architecture
+# Sample architecture
 
 This project is to build a simple Todo application which allow user to record their todo action with some simple description likes Todo, Desc & Status. The AWS structure is:
 
 ![Sample Architecture](https://github.com/duc-hectre/duc-hectre/blob/main/TF-SAM-APPROACH-1.png?raw=true)
 
-## Get started.
+# Get started.
 
 Regarding to this sample. The project structure looks like image below.
 
@@ -24,17 +24,17 @@ Regarding to this sample. The project structure looks like image below.
 
 In which, we have 3 main parts:
 
-# Lambda Function part
+### Lambda Function part
 
 First is the Lambda block which contains the definition of the lambda function including unit test, integration test if any.
 This is the main block for code logic which will be used to build the package & deploy to AWS Lambda.
 If any new functions need to be develop, they will be define here.
 
-# Terraform part
+### Terraform part
 
 This is the part that contains all the terraform code to initiate & manage infrastructures needed for our application. All the services on AWS will be defined here such as Lambda function configuration, IAM Roles & policies, SQS, CloudWatch, AWS Code Pipeline,...
 
-# SAM part
+### SAM part
 
 This is the part to defines SAM template which support us to run Lambda function locally for testing & debugging.
 If any lambda function need to be debugged or troubleshooted, we create the corresponding a simple sam template and link the URI to the proper lambda code defined in Lambda Part, then configure the debug profiles to start debugging.
@@ -43,9 +43,11 @@ Try to keep the SAM template as simple as possible so that we don't have to spen
 
 Regarding to details of configuration as well as surrounding services, they had already been defined in Terraform part.
 
+### How to run the project.
+
 Following the steps below to get the project starts.
 
-1. Install prerequisites
+1. __Install prerequisites__
 
    - Install AWS CLI tool
      An AWS account with proper permission with the services we are intend to initiate & use.
@@ -60,9 +62,9 @@ Following the steps below to get the project starts.
 
      - AWS Toolkit [AWS Toolkit for Visual Studio Code - AWS Toolkit for VS Code ](https://docs.aws.amazon.com/toolkit-for-vscode/latest/userguide/welcome.html)
 
-     - Serverless IDE
+     - Terraform
 
-2. Run locally
+2. __Run locally__
 
    To run the lambda locally. Navigate the corresponding SAM folder of lambda function then using SAM CLI below:
 
@@ -116,7 +118,7 @@ Following the steps below to get the project starts.
         Value: !GetAtt TodoFunction.Arn
    ```
 
-3. Debug
+3. __Debug__
 
    To debug the lambda function, open the launch.json file located in ./vscode/ folder, then add new SAM profile or edit the existing profiles to set difference input according to different scenarios to test.
    Pay attention to these parameters **TemplatePath, LogicalId, API** accordingly.
@@ -178,7 +180,7 @@ Following the steps below to get the project starts.
 
    Once ok, can use F5 in VS Code to start the lambda function & debug.
 
-4. Build
+4. __Build__
 
    To build the deployment package of lambda function. Navigate the corresponding SAM folder of lambda function then using SAM CLI below:
 
@@ -194,7 +196,7 @@ Following the steps below to get the project starts.
 
    In this example, we use _sam build_ to generate the package folder and use archive_file of terraform to zip the package.
 
-5. Deploy
+5. __Deploy__
 
    As mentioned earlier, we use Terraform as the main method to initiate & define the AWS resources. To deploy whole the application manually, we use Terraform CLI as below:
    First, initiate the terraform library & modules.
@@ -241,7 +243,7 @@ Following the steps below to get the project starts.
 
    ![CI/CD pipeline](https://github.com/duc-hectre/duc-hectre/blob/main/tf_1_cicd_pipeline.png?raw=true)
 
-6. Destroy
+6. __Destroy__
 
    To destroy all the AWS resources defined by Terraform, using the CLI below:
 
