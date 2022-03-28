@@ -14,13 +14,13 @@ The approach is:
 
 This project is to build a simple Todo application which allow user to record their todo action with some simple description likes Todo, Desc & Status. The AWS structure is:
 
-[](https://github.com/duc-hectre/duc-hectre/blob/main/TF-SAM-APPROACH-1.png?raw=true)
+![Sample Architecture](https://github.com/duc-hectre/duc-hectre/blob/main/TF-SAM-APPROACH-1.png?raw=true)
 
 ### Get started.
 
 Regarding to this sample. The project structure looks like image below.
 
-[](https://github.com/duc-hectre/duc-hectre/blob/main/tf_1_project_structure.png?raw=true)
+![Sample project structure](https://github.com/duc-hectre/duc-hectre/blob/main/tf_1_project_structure.png?raw=true)
 
 In which, we have 3 main parts:
 
