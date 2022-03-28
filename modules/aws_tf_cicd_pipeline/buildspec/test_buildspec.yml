@@ -6,7 +6,7 @@ phases:
       python: 3.7
     commands:
       - cd ./lambda/src
-      - pip3 install pytest
+      - pip3 install -r ./tests/requirements.txt
   build:
     commands:
       - python -m pytest
