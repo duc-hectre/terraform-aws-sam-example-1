@@ -2,4 +2,3 @@ simplejson
 pytest
 pytest-mock
 boto3
-unittest
