@@ -16,22 +16,25 @@ Resources:
       Runtime: python3.8
       Architectures:
         - x86_64
-      Policies: 
-        - DynamoDBCrudPolicy:
-            TableName: !Ref HelloTable
-      Events:
-        GetHello:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /todo
-            Method: any        
-  HelloTable:
-    Type: AWS::Serverless::SimpleTable
-    Properties:
-      # PrimaryKey: PrimaryKeyObject
-      # ProvisionedThroughput: ProvisionedThroughput
-      # SSESpecification: SSESpecification
-      TableName: tf_sam_todo_table
+      # Policies: 
+      #   - DynamoDBCrudPolicy:
+      #       TableName: !Ref HelloTable
+      # Events:
+      #   GetHello:
+      #     Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+      #     Properties:
+      #       Path: /todo
+      #       Method: any        
+      Environment:
+        Variables:
+          DYNAMO_TABLE_NAME: "tf_sam_todo_table"
+  # HelloTable:
+  #   Type: AWS::Serverless::SimpleTable
+  #   Properties:
+  #     # PrimaryKey: PrimaryKeyObject
+  #     # ProvisionedThroughput: ProvisionedThroughput
+  #     # SSESpecification: SSESpecification
+  #     TableName: tf_sam_todo_table
       
 
 Outputs:  

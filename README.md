@@ -39,7 +39,9 @@ This is the part that contains all the terraform code to initiate & manage infra
 This is the part to defines SAM template which support us to run Lambda function locally for testing & debugging.
 If any lambda function need to be debugged or troubleshooted, we create the corresponding a simple sam template and link the URI to the proper lambda code defined in Lambda Part, then configure the debug profiles to start debugging.
 
-Try to keep the SAM template as simple as possible, mostly focus on Lambda config and input/trigger events of that lambda function only such as API gateway or SQS, cloudwatch. Regarding to details of configuration as well as surrounding services, they had already been defined in Terraform part.
+Try to keep the SAM template as simple as possible so that we don't have to spend a lot effort of defining the template, mostly focus on Lambda config, environment variables and input events used for testing.
+
+Regarding to details of configuration as well as surrounding services, they had already been defined in Terraform part.
 
 Following the steps below to get the project starts.
 
@@ -61,6 +63,7 @@ Following the steps below to get the project starts.
      - Serverless IDE
 
 2. Run locally
+
    To run the lambda locally. Navigate the corresponding SAM folder of lambda function then using SAM CLI below:
 
    ```
@@ -75,7 +78,46 @@ Following the steps below to get the project starts.
    sam local invoke -d 3000 -e event.json TodoPersistFunction
    ```
 
+   for example a SAM template for TodoFunction to handler user request from API gateway and send data to SQS.
+
+   ```
+    AWSTemplateFormatVersion: '2010-09-09'
+    Transform: AWS::Serverless-2016-10-31
+    Description: >
+    Todo lambda function
+    Globals:
+    Function:
+        Timeout: 3
+
+    Resources:
+    TodoFunction:
+        Type: AWS::Serverless::Function
+        Properties:
+        FunctionName: test-test_tag-tf-sam-lambda-todo-handler
+        CodeUri: ../../lambda/src/todo_handler/
+        Handler: main.lambda_handler
+        Runtime: python3.8
+        Architectures:
+            - x86_64
+        Events:
+            GetHello:
+            Type: Api
+            Properties:
+                Path: /todo
+                Method: any
+        Environment:
+            Variables:
+            DYNAMO_TABLE_NAME: "tf_sam_todo_table"
+            SQS_URL: "https://sqs.ap-southeast-1.amazonaws.com/983670951732/rf_sam_todo_queue"
+
+    Outputs:
+    TodoFunction:
+        Description: "Hello World Lambda Function ARN"
+        Value: !GetAtt TodoFunction.Arn
+   ```
+
 3. Debug
+
    To debug the lambda function, open the launch.json file located in ./vscode/ folder, then add new SAM profile or edit the existing profiles to set difference input according to different scenarios to test.
    Pay attention to these parameters **TemplatePath, LogicalId, API** accordingly.
 
@@ -137,6 +179,7 @@ Following the steps below to get the project starts.
    Once ok, can use F5 in VS Code to start the lambda function & debug.
 
 4. Build
+
    To build the deployment package of lambda function. Navigate the corresponding SAM folder of lambda function then using SAM CLI below:
 
    ```
@@ -152,6 +195,7 @@ Following the steps below to get the project starts.
    In this example, we use _sam build_ to generate the package folder and use archive_file of terraform to zip the package.
 
 5. Deploy
+
    As mentioned earlier, we use Terraform as the main method to initiate & define the AWS resources. To deploy whole the application manually, we use Terraform CLI as below:
    First, initiate the terraform library & modules.
 
@@ -163,45 +207,44 @@ Following the steps below to get the project starts.
 
    ```
    terraform validate
-
    ```
 
    Create plan to deploy
 
    ```
    terraform plan
-
    ```
 
    Apply the changes to deploy.
 
    ```
    terraform apply --auto-approve
-
    ```
 
    In this example, we use Terraform to define a AWS Code Pipeline to auto test & deploy the application to AWS cloud. Use can find the definition under main.tf file located in the root folder.
 
    ```
     module "aws_tf_cicd_pipeline" {
-    source = "./modules/aws_tf_cicd_pipeline"
+        source = "./modules/aws_tf_cicd_pipeline"
 
-    environment       = var.environment
-    region            = var.region
-    resource_tag_name = var.resource_tag_name
+        environment       = var.environment
+        region            = var.region
+        resource_tag_name = var.resource_tag_name
 
-    cicd_name                      = "tf-cicd-todo"
-    codestar_connector_credentials = var.codestar_connector_credentials
-    pipeline_artifact_bucket       = "tf-cicd-todo-artifact-bucket"
+        cicd_name                      = "tf-cicd-todo"
+        codestar_connector_credentials = var.codestar_connector_credentials
+        pipeline_artifact_bucket       = "tf-cicd-todo-artifact-bucket"
     }
    ```
 
    For details of Pipeline definition, refer to the terraform module located in _./modules/aws_tf_cicd_pipeline_
 
+   ![CI/CD pipeline](https://github.com/duc-hectre/duc-hectre/blob/main/tf_1_cicd_pipeline.png?raw=true)
+
 6. Destroy
+
    To destroy all the AWS resources defined by Terraform, using the CLI below:
 
    ```
    terraform destroy
-
    ```
