@@ -47,7 +47,7 @@ Regarding to details of configuration as well as surrounding services, they had 
 
 Following the steps below to get the project starts.
 
-1. __Install prerequisites__
+1. **Install prerequisites**
 
    - Install AWS CLI tool
      An AWS account with proper permission with the services we are intend to initiate & use.
@@ -64,7 +64,7 @@ Following the steps below to get the project starts.
 
      - Terraform
 
-2. __Run locally__
+2. **Run locally**
 
    To run the lambda locally. Navigate the corresponding SAM folder of lambda function then using SAM CLI below:
 
@@ -118,7 +118,7 @@ Following the steps below to get the project starts.
         Value: !GetAtt TodoFunction.Arn
    ```
 
-3. __Debug__
+3. **Debug**
 
    To debug the lambda function, open the launch.json file located in ./vscode/ folder, then add new SAM profile or edit the existing profiles to set difference input according to different scenarios to test.
    Pay attention to these parameters **TemplatePath, LogicalId, API** accordingly.
@@ -180,7 +180,7 @@ Following the steps below to get the project starts.
 
    Once ok, can use F5 in VS Code to start the lambda function & debug.
 
-4. __Build__
+4. **Build**
 
    To build the deployment package of lambda function. Navigate the corresponding SAM folder of lambda function then using SAM CLI below:
 
@@ -196,9 +196,10 @@ Following the steps below to get the project starts.
 
    In this example, we use _sam build_ to generate the package folder and use archive_file of terraform to zip the package.
 
-5. __Deploy__
+5. **Deploy**
 
    As mentioned earlier, we use Terraform as the main method to initiate & define the AWS resources. To deploy whole the application manually, we use Terraform CLI as below:
+
    First, initiate the terraform library & modules.
 
    ```
@@ -243,7 +244,7 @@ Following the steps below to get the project starts.
 
    ![CI/CD pipeline](https://github.com/duc-hectre/duc-hectre/blob/main/tf_1_cicd_pipeline.png?raw=true)
 
-6. __Destroy__
+6. **Destroy**
 
    To destroy all the AWS resources defined by Terraform, using the CLI below:
 
